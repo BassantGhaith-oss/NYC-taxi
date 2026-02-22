@@ -148,7 +148,7 @@ elif page == "Taxi Model":
     df = pd.DataFrame([input_data])
     st.write(df)
     if st.button("Predict Fare"):
-        prediction = model.predict(input_df)
+        prediction = model1.predict(input_df)
         st.success(f"Predicted Fare = ${prediction[0]:.2f}")
     
 # 💳 Credit Model Page
