@@ -19,7 +19,7 @@ page_bg = """
 
 /* Sidebar  */
 [data-testid="stSidebar"] {
-    background-color: #89CFF0;
+    background-color: #B0E0E6;
 }
 
 /* كل النصوص داخل sidebar */
