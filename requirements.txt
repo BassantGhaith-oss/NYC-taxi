@@ -3,3 +3,4 @@ numpy
 pandas
 scikit-learn
 joblib
+pip install streamlit-option-menu
