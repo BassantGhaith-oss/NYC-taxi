@@ -39,9 +39,7 @@ if page == "Taxi Model":
             'trip_duration', 'pickup_month', 'pickup_day', 'pickup_hour', 'pickup_minute',
             'distance_km'
         ]
-        onehot_features = [
-            'VendorID_2', 'RatecodeID_2', 'RatecodeID_3', 'RatecodeID_4', 'RatecodeID_5'
-        ]
+        onehot_features = ['VendorID_2', 'RatecodeID_2', 'RatecodeID_3', 'RatecodeID_4', 'RatecodeID_5']
 
         input_data = {}
 
