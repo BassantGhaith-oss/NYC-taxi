@@ -60,7 +60,13 @@ if page == "Home":
 elif page == "Taxi Model":
     st.header("🚕 Pick up Trip")
     st.subheader("⬛⬜⬛⬜⬛⬜⬛⬜⬛⬜⬛⬜⬛⬜⬛⬜⬛⬜⬜⬛⬜⬛⬜⬛⬜⬛⬜⬛⬜⬛⬜⬛⬜⬛⬜⬛")
- 
+    
+    # Passenger Count (مثلاً نسمح من 1 لـ 6)
+    
+    input_data['passenger_count'] = st.selectbox(
+    "Passenger Count",
+    options=[1, 2, 3, 4, 5, 6,7,8]
+    )
     
     model1 = joblib.load("taxi_model.pkl")
     
