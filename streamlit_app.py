@@ -17,15 +17,17 @@ page_bg = """
     color: #333333;             /* النص العادي */
 }
 
-/* Sidebar */
+/* Sidebar خلفية سوداء */
 [data-testid="stSidebar"] {
-    background-color: #000000;  /* أسود */
+    background-color: #000000;
 }
 
-/* كل النصوص داخل sidebar (labels, radio, checkbox) */
-[data-testid="stSidebar"] label, 
-[data-testid="stSidebar"] .stRadio > div, 
-[data-testid="stSidebar"] .stCheckbox > label {
+/* كل النصوص داخل sidebar */
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] .stRadio > div,
+[data-testid="stSidebar"] .stCheckbox > label,
+[data-testid="stSidebar"] .css-10trblm,  /* عنوان الـ sidebar */
+[data-testid="stSidebar"] .stSelectbox > div {
     color: #FFF8E7 !important;  /* أصفر فاتح */
 }
 
