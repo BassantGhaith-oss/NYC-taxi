@@ -102,6 +102,11 @@ elif page == "Taxi Model":
     "improvement_surcharge ",
     options=[1, 2, 3, 4, 5, 6,7,8]
     )
+    # trip_duration
+    input_data['trip_duration'] = st.selectbox(
+    "trip_duration ",
+    options=[1, 2, 3, 4, 5, 6,7,8]
+    )
     # pickup_month
     input_data['pickup_month'] = st.selectbox(
     "pickup_month ",
