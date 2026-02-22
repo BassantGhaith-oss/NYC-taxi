@@ -61,6 +61,8 @@ elif page == "Taxi Model":
     st.header("🚕 Pick up Trip")
     st.subheader("⬛⬜⬛⬜⬛⬜⬛⬜⬛⬜⬛⬜⬛⬜⬛⬜⬛⬜⬜⬛⬜⬛⬜⬛⬜⬛⬜⬛⬜⬛⬜⬛⬜⬛⬜⬛")
     
+    model1 = joblib.load("taxi_model.pkl")
+    input_data={}
     # Passenger Count (مثلاً نسمح من 1 لـ 6)
     
     input_data['passenger_count'] = st.selectbox(
@@ -68,9 +70,6 @@ elif page == "Taxi Model":
     options=[1, 2, 3, 4, 5, 6,7,8]
     )
     
-    model1 = joblib.load("taxi_model.pkl")
-    
-
 # 💳 Credit Model Page
 
 elif page == "Credit Model":
