@@ -4,6 +4,17 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import numpy as np
 
+# ----------------- تحميل الداتا -----------------
+st.sidebar.header("Load Data")
+uploaded_file = st.sidebar.file_uploader("Upload CSV (small version)", type="csv")
+
+if uploaded_file is not None:
+    data = pd.read_csv(uploaded_file)
+    st.success(f"Dataset loaded! Shape: {data.shape}")
+else:
+    st.warning("Please upload a CSV file to enable plots.")
+    data = None
+    
 @st.cache_resource
 def load_model(path):
     return joblib.load(path) 
