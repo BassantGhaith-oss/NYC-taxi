@@ -237,9 +237,4 @@ elif page == "Visualization":
             zoom=10,
             mapbox_style='carto-darkmatter'
         )
-        fig4.update_layout(
-            paper_bgcolor='black',
-            plot_bgcolor='black',
-            font_color='white'
-        )
-        st.plotly_chart(fig4, use_container_width=True)
+       
