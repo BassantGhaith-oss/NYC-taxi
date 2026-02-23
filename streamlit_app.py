@@ -271,5 +271,5 @@ elif page == "Visualization":
         st.pyplot(fig3)
 
         # 4️⃣ Map Example (Plotly)
-       plt.figure(figsize=(16, 12))
-       sns.heatmap(data.corr(numeric_only=True), annot=True, fmt='.2f', cmap='coolwarm')
+        plt.figure(figsize=(16, 12))
+        sns.heatmap(data.corr(numeric_only=True), annot=True, fmt='.2f', cmap='coolwarm')
