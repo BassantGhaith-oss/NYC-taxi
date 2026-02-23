@@ -165,7 +165,7 @@ elif page == "Visualization":
     N_PATHS = st.slider("Number of Simulated Paths", min_value=50, max_value=500, value=500, step=50)
     max_distance = st.number_input("Max Distance (km)", min_value=1, max_value=500, value=100)
 
-    # ----------------- Dummy Data -----------------
+    # ----------------- Dummy Data for Monte Carlo -----------------
     distances = np.linspace(0, max_distance, 100)
     paths = [np.cumsum(np.random.rand(len(distances))*0.5) for _ in range(N_PATHS)]
     final_fares = [path[-1] for path in paths]
@@ -212,20 +212,22 @@ elif page == "Visualization":
     st.info(f"Insight: At 10km, the average fare is ${mean_path[50]:.2f}")
     st.info(f"90% of rides cost between ${p10_path[50]:.2f} and ${p90_path[50]:.2f} at 10km")
 
-    # ----------------- Matplotlib Scatter -----------------
-    if 'data' in globals():  # تأكدي أن data موجودة
+    # ----------------- Matplotlib Scatter Plots -----------------
+    if 'data' in globals():
         plt.style.use('dark_background')
-        purple_color = '#8A2BE2'
-        fig, ax = plt.subplots(figsize=(8,5))
-        ax.scatter(data['trip_distance'], data['fare_amount'], alpha=0.5, color=purple_color)
-        ax.set_title("Trip Distance vs Fare Amount (Purple on Dark Background)", color='white')
-        ax.set_xlabel("Trip Distance", color='white')
-        ax.set_ylabel("Fare Amount", color='white')
-        ax.tick_params(axis='x', colors='white')
-        ax.tick_params(axis='y', colors='white')
-        st.pyplot(fig)
 
-        # Histogram example
+        # 1️⃣ Trip Distance vs Fare
+        purple_color = '#8A2BE2'
+        fig1, ax1 = plt.subplots(figsize=(8,5))
+        ax1.scatter(data['trip_distance'], data['fare_amount'], alpha=0.5, color=purple_color)
+        ax1.set_title("Trip Distance vs Fare Amount", color='white')
+        ax1.set_xlabel("Trip Distance", color='white')
+        ax1.set_ylabel("Fare Amount", color='white')
+        ax1.tick_params(axis='x', colors='white')
+        ax1.tick_params(axis='y', colors='white')
+        st.pyplot(fig1)
+
+        # 2️⃣ Trip Duration vs Fare
         teal_color = '#008080'
         fig2, ax2 = plt.subplots(figsize=(8,5))
         ax2.scatter(data['trip_duration'], data['fare_amount'], alpha=0.5, color=teal_color)
@@ -235,3 +237,29 @@ elif page == "Visualization":
         ax2.tick_params(axis='x', colors='white')
         ax2.tick_params(axis='y', colors='white')
         st.pyplot(fig2)
+
+        # 3️⃣ Histogram / Fare Bucket
+        bins = [0, 5, 10, 15, 20, 25, 30, 40, 50, 75, 200]
+        labels = ['$0–5','$5–10','$10–15','$15–20','$20–25','$25–30','$30–40','$40–50','$50–75','$75+']
+        data['fare_bucket'] = pd.cut(data['fare_amount'], bins=bins, labels=labels)
+        bucket_counts = data['fare_bucket'].value_counts().sort_index()
+
+        fig3, ax3 = plt.subplots(figsize=(8,5))
+        ax3.bar(labels, bucket_counts, color=teal_color, alpha=0.7)
+        ax3.set_title("Fare Distribution Histogram", color='white')
+        ax3.set_xlabel("Fare Range ($)", color='white')
+        ax3.set_ylabel("Number of Rides", color='white')
+        ax3.tick_params(axis='x', rotation=45, colors='white')
+        ax3.tick_params(axis='y', colors='white')
+        st.pyplot(fig3)
+
+        # 4️⃣ Map Example (Plotly)
+        import plotly.express as px
+        sample_size = min(5000, len(data))
+        df_map = data.sample(sample_size, random_state=42)
+        fig4 = px.scatter_mapbox(
+            df_map, lat='pickup_latitude', lon='pickup_longitude',
+            color='fare_amount', size_max=4, opacity=0.5, zoom=10,
+            mapbox_style='carto-darkmatter'
+        )
+        st.plotly_chart(fig4, use_container_width=True)
