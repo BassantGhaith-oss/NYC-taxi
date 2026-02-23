@@ -168,6 +168,14 @@ elif page == "Taxi Model":
     if st.button("Predict Fare"):
         prediction = model1.predict(input_df)
         st.success(f"Predicted Fare = ${prediction[0]:.2f}")
+        
+# just for visualization
+
+# لو البيانات صغيرة أو مش كاملة
+required_cols = ['trip_distance', 'trip_duration', 'fare_amount', 'pickup_latitude', 'pickup_longitude']
+for col in required_cols:
+    if col not in data.columns:
+        data[col] = np.random.rand(len(data)) * 10 
 elif page == "Visualization":
     st.info("Model Visualization — Monte Carlo Simulation")
 
