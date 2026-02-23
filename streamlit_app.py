@@ -4,7 +4,8 @@ import numpy as np
 import joblib
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
-url = "https://drive.google.com/file/d/1IFfizkL2igkaqeyZBBv5hZLBY3RAAK9M/view?usp=sharing"
+file_id = "1IFfizkL2igkaqeyZBBv5hZLBY3RAAK9M"
+url = f"https://drive.google.com/uc?export=download&id={file_id}"
 data = pd.read_csv(url)
 
 @st.cache_resource
