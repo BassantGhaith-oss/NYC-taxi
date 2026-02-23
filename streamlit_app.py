@@ -225,16 +225,4 @@ elif page == "Visualization":
         ax3.tick_params(axis='y', colors='white')
         st.pyplot(fig3)
 
-        fig4 = px.scatter_mapbox(
-            df.sample(min(5000, len(df)), random_state=42),
-            lat='pickup_latitude',
-            lon='pickup_longitude',
-            color='fare_amount',
-            size='fare_amount',
-            color_continuous_scale=px.colors.sequential.Viridis,
-            size_max=6,
-            opacity=0.7,
-            zoom=10,
-            mapbox_style='carto-darkmatter'
-        )
-       
+      
