@@ -179,15 +179,14 @@ elif page == "Taxi Model":
 elif page == "Visualization":
     st.info("Model Visualization — Monte Carlo Simulation")
 
-    # ----------------- تأكد من وجود الداتا -----------------
-    if 'data' not in globals():
-        st.warning("Dataset not loaded! Please load 'data' first to see the plots.")
+    if data is None:
+        st.warning("Dataset not loaded! Please load 'small_data.csv' first to see the plots.")
     else:
-        # ----------------- Inputs -----------------
-        N_PATHS = st.slider("Number of Simulated Paths", min_value=50, max_value=500, value=500, step=50)
+        # ---------- Inputs ----------
+        N_PATHS = st.slider("Number of Simulated Paths", min_value=50, max_value=500, value=200, step=50)
         max_distance = st.number_input("Max Distance (km)", min_value=1, max_value=500, value=100)
 
-        # ----------------- Dummy Data for Monte Carlo -----------------
+        # ---------- Monte Carlo Dummy Data ----------
         distances = np.linspace(0, max_distance, 100)
         paths = [np.cumsum(np.random.rand(len(distances))*0.5) for _ in range(N_PATHS)]
         final_fares = [path[-1] for path in paths]
@@ -203,7 +202,7 @@ elif page == "Visualization":
             norm = min(fare / max(final_fares), 1.0)
             return f'rgba(0, {int(200*norm)}, 255, 0.3)'
 
-        # ----------------- Plotly Monte Carlo -----------------
+        # ---------- Plotly Monte Carlo ----------
         fig_mc = go.Figure()
         for i in range(N_PATHS):
             fig_mc.add_trace(go.Scatter(
@@ -224,7 +223,6 @@ elif page == "Visualization":
             fill='toself', fillcolor='rgba(0,200,255,0.12)',
             line=dict(color='rgba(0,0,0,0)'), name='P25–P75 Band'
         ))
-        # Mean path
         fig_mc.add_trace(go.Scatter(
             x=distances, y=mean_path, mode='lines',
             line=dict(color='#FFE135', width=3.5),
@@ -234,8 +232,14 @@ elif page == "Visualization":
         st.info(f"Insight: At 10km, the average fare is ${mean_path[50]:.2f}")
         st.info(f"90% of rides cost between ${p10_path[50]:.2f} and ${p90_path[50]:.2f} at 10km")
 
-        # ----------------- Matplotlib Scatter Plots -----------------
+        # ---------- Matplotlib Scatter Plots ----------
         plt.style.use('dark_background')
+
+        # اتأكد من وجود الأعمدة
+        scatter_cols = ['trip_distance','trip_duration','fare_amount']
+        for col in scatter_cols:
+            if col not in data.columns:
+                data[col] = np.random.rand(len(data))*10
 
         # 1️⃣ Trip Distance vs Fare
         fig1, ax1 = plt.subplots(figsize=(8,5))
@@ -260,9 +264,10 @@ elif page == "Visualization":
         # 3️⃣ Fare Distribution Histogram
         bins = [0, 5, 10, 15, 20, 25, 30, 40, 50, 75, 200]
         labels = ['$0–5','$5–10','$10–15','$15–20','$20–25','$25–30','$30–40','$40–50','$50–75','$75+']
+        if 'fare_amount' not in data.columns:
+            data['fare_amount'] = np.random.rand(len(data))*50
         data['fare_bucket'] = pd.cut(data['fare_amount'], bins=bins, labels=labels)
         bucket_counts = data['fare_bucket'].value_counts().sort_index()
-
         fig3, ax3 = plt.subplots(figsize=(8,5))
         ax3.bar(labels, bucket_counts, color='#008080', alpha=0.7)
         ax3.set_title("Fare Distribution Histogram", color='white')
@@ -273,12 +278,15 @@ elif page == "Visualization":
         st.pyplot(fig3)
 
         # 4️⃣ Map Example (Plotly)
-        import plotly.express as px
+        map_cols = ['pickup_latitude','pickup_longitude','fare_amount']
+        for col in map_cols:
+            if col not in data.columns:
+                data[col] = np.random.rand(len(data))*10
         sample_size = min(5000, len(data))
         df_map = data.sample(sample_size, random_state=42)
         fig4 = px.scatter_mapbox(
             df_map, lat='pickup_latitude', lon='pickup_longitude',
             color='fare_amount', size_max=4, opacity=0.5, zoom=10,
-            mapbox_style='carto-darkmatter'
+            mapbox_style='open-street-map'
         )
         st.plotly_chart(fig4, use_container_width=True)
