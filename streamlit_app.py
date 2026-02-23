@@ -157,10 +157,112 @@ elif page == "Taxi Model":
         prediction = model1.predict(input_df)
         st.success(f"Predicted Fare = ${prediction[0]:.2f}")
     
+import matplotlib.pyplot as plt
+vis1={ِِ
 
+# Percentile bands (shaded area)
+fig.add_trace(go.Scatter(
+    x=np.concatenate([distances, distances[::-1]]),
+    y=np.concatenate([p90_path, p10_path[::-1]]),
+    fill='toself',
+    fillcolor='rgba(0,200,255,0.07)',
+    line=dict(color='rgba(0,0,0,0)'),
+    name='P10–P90 Band',
+    showlegend=True
+))
 
+fig.add_trace(go.Scatter(
+    x=np.concatenate([distances, distances[::-1]]),
+    y=np.concatenate([p75_path, p25_path[::-1]]),
+    fill='toself',
+    fillcolor='rgba(0,200,255,0.12)',
+    line=dict(color='rgba(0,0,0,0)'),
+    name='P25–P75 Band',
+    showlegend=True
+))
+
+# P10 and P90 dashed lines
+fig.add_trace(go.Scatter(
+    x=distances, y=p90_path,
+    mode='lines',
+    line=dict(color='rgba(0,245,255,0.6)', width=1.5, dash='dash'),
+    name='90th Percentile'
+))
+
+fig.add_trace(go.Scatter(
+    x=distances, y=p10_path,
+    mode='lines',
+    line=dict(color='rgba(0,245,255,0.6)', width=1.5, dash='dash'),
+    name='10th Percentile'
+))
+
+# MEAN PATH — the golden line
+fig.add_trace(go.Scatter(
+    x=distances, y=mean_path,
+    mode='lines',
+    line=dict(color='#FFE135', width=3.5),
+    name=f'Mean Fare (${mean_path[-1]:.2f} at {max_distance}km)'
+))
+
+# Annotation at end of mean line
+fig.add_annotation(
+    x=max_distance, y=mean_path[-1],
+    text=f"  MEAN ${mean_path[-1]:.2f}",
+    showarrow=False,
+    font=dict(color='#FFE135', size=11, family='monospace'),
+    xanchor='left'
+)
+
+fig.add_annotation(
+    x=max_distance, y=p90_path[-1],
+    text=f"  P90 ${p90_path[-1]:.2f}",
+    showarrow=False,
+    font=dict(color='rgba(0,245,255,0.8)', size=10, family='monospace'),
+    xanchor='left'
+)
+
+fig.add_annotation(
+    x=max_distance, y=p10_path[-1],
+    text=f"  P10 ${p10_path[-1]:.2f}",
+    showarrow=False,
+    font=dict(color='rgba(0,245,255,0.8)', size=10, family='monospace'),
+    xanchor='left'
+)
+
+# Style
+fig.update_layout(
+    title=dict(
+        text=' Monte Carlo Fare Simulation — 500 Simultaneous Ride Paths',
+        font=dict(size=18, color='white', family='monospace'),
+        x=0.5
+    ),
+    paper_bgcolor='#020408',
+    plot_bgcolor='#060D14',
+    font=dict(color='rgba(0,245,255,0.7)', family='monospace'),
+    xaxis=dict(
+        title='Distance (km)',
+        gridcolor='rgba(0,245,255,0.06)',
+        color='rgba(0,245,255,0.5)',
+        zeroline=False
+    ),
+    yaxis=dict(
+        title='Fare Amount ($)',
+        gridcolor='rgba(0,245,255,0.06)',
+        color='rgba(0,245,255,0.5)',
+        zeroline=False
+    ),
+    legend=dict(
+        bgcolor='rgba(0,20,35,0.8)',
+        bordercolor='rgba(0,245,255,0.2)',
+        borderwidth=1,
+        font=dict(size=10)
+    ),
+    height=500,
+    margin=dict(r=120)
+)
+
+fig.show()
+}
 elif page == "Visualization":
-    st.header("")
-
-
-
+    st.info("")
+    print(vis1)
