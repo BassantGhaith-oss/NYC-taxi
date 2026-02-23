@@ -139,18 +139,21 @@ elif page == "Taxi Model":
     ratecode = st.selectbox("Ratecode ID", [2,3,4,5,6,99])
 
     # Vendor ID
-    input_data['VendorID_2'] = 1 if vendor == "2" else 0
+    input_data['VendorID_2'] = 1 if vendor == 2 else 0
 
     # Ratecode IDs
-    input_data['RatecodeID_2'] = 1 if ratecode == 2 else 0
-    input_data['RatecodeID_3'] = 1 if ratecode == 3 else 0
-    input_data['RatecodeID_4'] = 1 if ratecode == 4 else 0
-    input_data['RatecodeID_5'] = 1 if ratecode == 5 else 0
-    input_data['RatecodeID_99'] = 1 if ratecode == 99 else 0
+    input_data['RatecodeID_2.0'] = 1 if ratecode == 2 else 0
+    input_data['RatecodeID_3.0'] = 1 if ratecode == 3 else 0
+    input_data['RatecodeID_4.0'] = 1 if ratecode == 4 else 0
+    input_data['RatecodeID_5.0'] = 1 if ratecode == 5 else 0
+    input_data['RatecodeID_6.0'] = 1 if ratecode == 6 else 0
+    input_data['RatecodeID_99.0'] = 1 if ratecode == 99 else 0
     
     input_df = pd.DataFrame([input_data])
     st.write(input_df)
     st.write("Input DataFrame columns:", input_df.columns.tolist())
+    expected_cols = model1.feature_names_in_
+    input_df = input_df.reindex(columns=expected_cols, fill_value=0)
     if st.button("Predict Fare"):
         prediction = model1.predict(input_df)
         st.success(f"Predicted Fare = ${prediction[0]:.2f}")
