@@ -9,7 +9,6 @@ data_path = "small_data.csv"
 
 if os.path.exists(data_path):
     data = pd.read_csv(data_path)
-    st.success(f"Dataset loaded! Shape: {data.shape}")
 else:
     data = None
     st.warning(f"Dataset '{data_path}' not found! Please make sure it's in the app folder.")
