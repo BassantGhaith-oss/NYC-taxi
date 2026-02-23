@@ -24,6 +24,13 @@ required_cols = {
     'pickup_latitude': (40, 41),
     'pickup_longitude': (-74, -73)
 }
+for col, (low, high) in required_cols.items():
+    if col not in df.columns:
+        df[col] = np.random.uniform(low, high, size=len(df))
+    else:
+        df[col] = pd.to_numeric(df[col], errors='coerce')
+        missing_idx = df[col].isna()
+        df.loc[missing_idx, col] = np.random.uniform(low, high, size=missing_idx.sum())
  
            
 @st.cache_resource
