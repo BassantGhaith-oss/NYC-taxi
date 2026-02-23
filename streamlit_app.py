@@ -16,10 +16,15 @@ else:
 # just for visualization
 
 # لو البيانات صغيرة أو مش كاملة
-required_cols = ['trip_distance', 'trip_duration', 'fare_amount', 'pickup_latitude', 'pickup_longitude']
-for col in required_cols:
-    if col not in data.columns:
-        data[col] = np.random.rand(len(data)) * 10 
+# ---------- Handle missing / non-numeric values ----------
+required_cols = {
+    'trip_distance': (0, 20),
+    'trip_duration': (1, 20),
+    'fare_amount': (5, 50),
+    'pickup_latitude': (40, 41),
+    'pickup_longitude': (-74, -73)
+}
+ 
            
 @st.cache_resource
 def load_model(path):
