@@ -18,8 +18,8 @@ else:
 # لو البيانات صغيرة أو مش كاملة
 required_cols = ['trip_distance', 'trip_duration', 'fare_amount', 'pickup_latitude', 'pickup_longitude']
 for col in required_cols:
-    {if col not in data.columns:
-        data[col] = np.random.rand(len(data)) * 10 }
+    if col not in data.columns:
+        data[col] = np.random.rand(len(data)) * 10 
            
 @st.cache_resource
 def load_model(path):
